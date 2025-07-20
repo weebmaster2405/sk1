@@ -11,19 +11,18 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from . import info
+import dj_database_url
 import os
 import socket
-import pymysql
-pymysql.install_as_MySQLdb()
+from dotenv import load_dotenv
+load_dotenv()
 
-EMAIL_USE_TLS = info.EMAIL_USE_TLS
-EMAIL_HOST = info.EMAIL_HOST
-EMAIL_HOST_USER = info.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = info.EMAIL_HOST_PASSWORD
-EMAIL_PORT = info.EMAIL_PORT
-EMAIL_SENDER_ID = info.EMAIL_SENDER_ID
-DEFAULT_FROM_EMAIL = 'InsideOrgs <info@sphurti.net>'
+import dj_database_url
+
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
+SITE_URL = os.environ.get('SITE_URL', '')
 
 
 # PAYPAL_CLIENT_ID = 'AfPn1HGapTXGdyoT6gFEzP8x5dJeYpn1X5iVO6LdS3zNqAx--XyeHBzEBrC4-tW5303OTijUB8866IFX'
@@ -35,10 +34,10 @@ DEFAULT_FROM_EMAIL = 'InsideOrgs <info@sphurti.net>'
 # PAYPAL_ENVIRONMENT = 'sandbox'
 
 # Razorpay Settings
-RAZORPAY_KEY_ID = info.RAZORPAY_KEY_ID  # Replace with your actual test key
-RAZORPAY_KEY_SECRET = info.RAZORPAY_KEY_SECRET  # Replace with your actual test secret
-RAZORPAY_WEBHOOK_SECRET = info.RAZORPAY_WEBHOOK_SECRET  # Add your webhook secret for production
-SITE_URL = info.SITE_URL  # Update with your actual site URL
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
+RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', '')
+SITE_URL = os.environ.get('SITE_URL', '')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = False
@@ -53,18 +52,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t=t6_r!s!x#d0)x5!6216v5)2@&wymv!w)@x&qw8u2m#ctm$*('
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t=t6_r!s!x#d0)x5!6216v5)2@&wymv!w)@x&qw8u2m#ctm$*(')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = info.DEBUG # Set to True for development to serve static/media files
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to True for development to serve static/media files
 
 # Test comment for Jenkins CI/CD pipeline verification
-ALLOWED_HOSTS = ['insideorgs.sphurti.net','127.0.0.1','localhost','testserver']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-]
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
 
 # Application definition
 
@@ -119,20 +115,12 @@ WSGI_APPLICATION = 'orgchart.wsgi.application'
 
 
 
-# Database Configuration - Using MySQL with insideorgs_db
+
+# Database Configuration - Using Supabase PostgreSQL
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': info.DB_NAME,  # insideorgs_db
-        'USER': info.DB_USER,  # root
-        'PASSWORD': info.DB_PASSWORD,  # empty for XAMPP
-        'HOST': info.DB_HOST,  # localhost
-        'PORT': info.DB_PORT,  # 3306
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
-    }
+    'default': dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    )
 }
 
 # SQLite configuration (backup - commented out)
@@ -181,7 +169,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-BASE_URL = info.BASE_URL  # Update with your actual site URL
+BASE_URL = os.environ.get('BASE_URL', '')
 
 STATIC_URL = '/static/'
 

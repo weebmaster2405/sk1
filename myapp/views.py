@@ -69,7 +69,13 @@ def landing(request):
 
 @login_required
 def home(request):
-    if request.user.userprofile.is_superadmin or request.user.groups.filter(name='Admin').exists(): 
+    # Check if user has UserProfile, create if it doesn't exist
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile.objects.create(user=request.user, is_superadmin=False)
+    
+    if user_profile.is_superadmin or request.user.groups.filter(name='Admin').exists(): 
         charts = chart.objects.all()
         users = User.objects.filter(groups__name="Subscriber")
     elif request.user.groups.filter(name='Sales Partner').exists():
@@ -375,9 +381,17 @@ def listorgchart(request):
     try:
         access_key = UserProfile.objects.get(user=request.user).access_uuid  
     except UserProfile.DoesNotExist:
-        access_key = None
+        user_profile = UserProfile.objects.create(user=request.user)
+        access_key = user_profile.access_uuid
     ChartAccess.remove_expired_access()
-    if request.user.userprofile.is_superadmin or request.user.groups.filter(name='Admin').exists():
+    
+    # Check if user has UserProfile, create if it doesn't exist
+    try:
+        user_profile = request.user.userprofile
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile.objects.create(user=request.user, is_superadmin=False)
+    
+    if user_profile.is_superadmin or request.user.groups.filter(name='Admin').exists():
         charts_data = [{'chart': chart, 'creation_time': chart.creation_date} for chart in chart.objects.all()]
 
     else:

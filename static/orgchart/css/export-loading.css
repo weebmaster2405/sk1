@@ -1,0 +1,703 @@
+/* ===== LIGHT THEME GEOMETRIC ORG CHART LOADER ===== */
+.export-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(248, 253, 255, 0.95) 0%, 
+        rgba(240, 249, 255, 0.95) 30%, 
+        rgba(232, 245, 255, 0.95) 70%, 
+        rgba(225, 245, 254, 0.95) 100%);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.export-loading-container {
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(248, 253, 255, 0.9) 100%);
+    padding: 60px 40px;
+    border-radius: 30px;
+    text-align: center;
+    box-shadow: 
+        0 20px 60px rgba(79, 195, 247, 0.15),
+        0 8px 32px rgba(41, 182, 246, 0.1),
+        0 0 0 1px rgba(79, 195, 247, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    max-width: 520px;
+    width: 90%;
+    animation: slideIn 1s cubic-bezier(0.23, 1, 0.320, 1);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(79, 195, 247, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.export-loading-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(79, 195, 247, 0.05), 
+        transparent);
+    animation: shimmerContainer 3s infinite;
+}
+
+.export-loading-container h3 {
+    color: #2c3e50;
+    font-size: 26px;
+    margin: 25px 0 12px;
+    font-weight: 600;
+    text-shadow: 0 2px 10px rgba(79, 195, 247, 0.2);
+    letter-spacing: 0.5px;
+}
+
+.export-loading-container p {
+    color: #546e7a;
+    font-size: 15px;
+    margin-bottom: 45px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.org-chart-loader {
+    position: relative;
+    width: 280px;
+    height: 200px;
+    margin: 0 auto 35px;
+}
+
+/* Light Theme Geometric Nodes with Clean Design */
+.org-node {
+    position: absolute;
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(248, 253, 255, 0.95) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 11px;
+    box-shadow: 
+        0 8px 25px rgba(79, 195, 247, 0.2),
+        0 4px 12px rgba(41, 182, 246, 0.1),
+        0 0 0 1px rgba(79, 195, 247, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    animation: pulseNodeLight 2.5s infinite ease-in-out;
+    border: 1px solid rgba(79, 195, 247, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+/* CEO Node - Diamond Shape with Blue Theme */
+.ceo-node {
+    width: 50px;
+    height: 50px;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    background: linear-gradient(145deg, 
+        rgba(79, 195, 247, 1) 0%, 
+        rgba(41, 182, 246, 0.9) 100%);
+    border-radius: 8px;
+    animation-delay: 0s;
+    box-shadow: 
+        0 0 30px rgba(79, 195, 247, 0.3),
+        0 8px 25px rgba(41, 182, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.ceo-node::after {
+    content: '👑';
+    position: absolute;
+    font-size: 18px;
+    transform: rotate(-45deg);
+}
+
+/* Manager Nodes - Hexagonal Design with Light Blue */
+.manager-node-1, .manager-node-2, .manager-node-3 {
+    width: 44px;
+    height: 38px;
+    top: 80px;
+    background: linear-gradient(145deg, 
+        rgba(79, 195, 247, 0.9) 0%, 
+        rgba(41, 182, 246, 0.8) 100%);
+    clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+    border-radius: 0;
+    box-shadow: 
+        0 0 25px rgba(79, 195, 247, 0.3),
+        0 6px 20px rgba(41, 182, 246, 0.2);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.manager-node-1 {
+    left: 40px;
+    animation-delay: 0.6s;
+}
+
+.manager-node-2 {
+    left: 118px;
+    animation-delay: 0.8s;
+}
+
+.manager-node-3 {
+    left: 196px;
+    animation-delay: 1.0s;
+}
+
+/* Employee Nodes - Clean Circles with Soft Purple */
+.employee-node-1, .employee-node-2, .employee-node-3, .employee-node-4 {
+    width: 36px;
+    height: 36px;
+    top: 150px;
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(240, 249, 255, 0.9) 100%);
+    border-radius: 50%;
+    box-shadow: 
+        0 0 20px rgba(79, 195, 247, 0.2),
+        0 6px 15px rgba(41, 182, 246, 0.1),
+        0 0 0 2px rgba(79, 195, 247, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    color: #4fc3f7;
+    font-size: 14px;
+    border: 1px solid rgba(79, 195, 247, 0.2);
+}
+
+.employee-node-1 {
+    left: 20px;
+    animation-delay: 1.3s;
+}
+
+.employee-node-2 {
+    left: 80px;
+    animation-delay: 1.5s;
+}
+
+.employee-node-3 {
+    left: 140px;
+    animation-delay: 1.7s;
+}
+
+.employee-node-4 {
+    left: 200px;
+    animation-delay: 1.9s;
+}
+
+/* Light Theme Geometric Connecting Lines */
+.org-line {
+    position: absolute;
+    background: linear-gradient(90deg, 
+        rgba(79, 195, 247, 0.7) 0%, 
+        rgba(41, 182, 246, 0.9) 50%, 
+        rgba(79, 195, 247, 0.7) 100%);
+    animation: drawLineLight 1.5s cubic-bezier(0.23, 1, 0.320, 1) forwards;
+    transform-origin: left center;
+    opacity: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.3);
+}
+
+.vertical-line {
+    width: 3px;
+    height: 50px;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+    animation-delay: 0.4s;
+}
+
+.horizontal-line {
+    width: 156px;
+    height: 3px;
+    left: 62px;
+    top: 97px;
+    animation-delay: 0.9s;
+}
+
+.branch-line-1, .branch-line-2, .branch-line-3 {
+    width: 3px;
+    height: 50px;
+    top: 100px;
+    animation-delay: 1.2s;
+}
+
+.branch-line-1 {
+    left: 62px;
+}
+
+.branch-line-2 {
+    left: 140px;
+}
+
+.branch-line-3 {
+    left: 218px;
+}
+
+/* Light Theme Data Flow Particles */
+.data-flow {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, 
+        rgba(255, 193, 7, 1) 0%, 
+        rgba(255, 167, 38, 0.8) 70%, 
+        transparent 100%);
+    border-radius: 50%;
+    animation: flowDataLight 4s infinite cubic-bezier(0.23, 1, 0.320, 1);
+    box-shadow: 
+        0 0 15px rgba(255, 193, 7, 0.6),
+        0 0 25px rgba(255, 167, 38, 0.3);
+}
+
+.flow-1 {
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 2.2s;
+}
+
+.flow-2 {
+    top: 75px;
+    left: 140px;
+    animation-delay: 2.8s;
+}
+
+.flow-3 {
+    top: 125px;
+    left: 80px;
+    animation-delay: 3.4s;
+}
+
+/* Light Theme Floating Geometric Shapes */
+.geometric-ambient {
+    position: absolute;
+    opacity: 0.15;
+    animation: floatAmbientLight 6s infinite ease-in-out;
+}
+
+.ambient-triangle {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid rgba(79, 195, 247, 0.4);
+    top: -20px;
+    right: -30px;
+    animation-delay: 0s;
+}
+
+.ambient-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(41, 182, 246, 0.3);
+    bottom: -40px;
+    left: -50px;
+    animation-delay: 2s;
+}
+
+.ambient-square {
+    width: 25px;
+    height: 25px;
+    background: rgba(255, 193, 7, 0.4);
+    transform: rotate(45deg);
+    top: 50%;
+    right: -60px;
+    animation-delay: 4s;
+}
+
+/* Light Theme Progress Bar with Clean Gradient */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, 
+        rgba(232, 245, 255, 0.8) 0%, 
+        rgba(225, 245, 254, 0.6) 100%);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 35px;
+    border: 1px solid rgba(79, 195, 247, 0.2);
+    box-shadow: inset 0 1px 3px rgba(79, 195, 247, 0.1);
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(79, 195, 247, 1) 0%, 
+        rgba(41, 182, 246, 0.9) 50%, 
+        rgba(30, 136, 229, 1) 100%);
+    border-radius: 6px;
+    transition: width 1.2s cubic-bezier(0.23, 1, 0.320, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 12px rgba(79, 195, 247, 0.4);
+}
+
+.progress-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent);
+    animation: shimmerProgressLight 2.5s infinite;
+}
+
+/* Light Theme Export Status */
+.export-status {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #4fc3f7;
+    font-weight: 500;
+    min-height: 20px;
+    animation: fadeInOutLight 3s infinite;
+    text-shadow: 0 1px 3px rgba(79, 195, 247, 0.2);
+    letter-spacing: 0.5px;
+}
+
+/* Light Theme File Icon */
+.file-icon {
+    position: absolute;
+    bottom: -35px;
+    right: -35px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, 
+        rgba(76, 175, 80, 1) 0%, 
+        rgba(46, 125, 50, 0.9) 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bounceFileLight 3s infinite ease-in-out;
+    box-shadow: 
+        0 0 25px rgba(76, 175, 80, 0.3),
+        0 12px 30px rgba(46, 125, 50, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.file-icon::before {
+    content: '📊';
+    font-size: 28px;
+    animation: rotateIconLight 8s infinite linear;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Light Theme Enhanced Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(40px);
+        filter: blur(8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-60px) scale(0.9) rotateX(10deg);
+        opacity: 0;
+        filter: blur(3px);
+    }
+    to {
+        transform: translateY(0) scale(1) rotateX(0deg);
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes pulseNodeLight {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+            0 8px 25px rgba(79, 195, 247, 0.2),
+            0 4px 12px rgba(41, 182, 246, 0.1),
+            0 0 0 1px rgba(79, 195, 247, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+    50% {
+        transform: scale(1.04);
+        box-shadow: 
+            0 12px 30px rgba(79, 195, 247, 0.3),
+            0 6px 16px rgba(41, 182, 246, 0.15),
+            0 0 0 1px rgba(79, 195, 247, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 1);
+    }
+}
+
+@keyframes drawLineLight {
+    0% {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes flowDataLight {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+        transform: translateY(0) scale(1);
+    }
+    90% {
+        opacity: 0.8;
+        transform: translateY(100px) scale(1.1);
+    }
+    100% {
+        transform: translateY(120px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+@keyframes shimmerProgressLight {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes shimmerContainer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes fadeInOutLight {
+    0%, 100% {
+        opacity: 0.7;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-1px);
+    }
+}
+
+@keyframes bounceFileLight {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-6px) rotate(2deg) scale(1.03);
+    }
+}
+
+@keyframes rotateIconLight {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes floatAmbientLight {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.15;
+    }
+    33% {
+        transform: translateY(-12px) rotate(120deg);
+        opacity: 0.25;
+    }
+    66% {
+        transform: translateY(-4px) rotate(240deg);
+        opacity: 0.2;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Light Theme Additional Elements */
+.org-chart-loader::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    border: 2px solid rgba(79, 195, 247, 0.15);
+    border-radius: 15px;
+    animation: rotateLoaderLight 8s infinite linear;
+}
+
+.org-chart-loader::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px dashed rgba(41, 182, 246, 0.2);
+    border-radius: 10px;
+    animation: rotateLoaderLight 6s infinite linear reverse;
+}
+
+@keyframes rotateLoaderLight {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Light Theme Floating particles effect */
+.export-loading-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(79, 195, 247, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(41, 182, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(76, 175, 80, 0.03) 0%, transparent 50%);
+    border-radius: 30px;
+    pointer-events: none;
+    animation: floatParticlesLight 4s infinite ease-in-out;
+}
+
+@keyframes floatParticlesLight {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    50% {
+        transform: translateY(-8px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .export-loading-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .org-chart-loader {
+        width: 160px;
+        height: 120px;
+    }
+    
+    .org-node {
+        width: 30px;
+        height: 24px;
+        font-size: 8px;
+    }
+    
+    .ceo-node {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .manager-node-1 { left: 15px; }
+    .manager-node-2 { left: 60px; }
+    .manager-node-3 { left: 105px; }
+    
+    .employee-node-1 { left: 5px; top: 96px; }
+    .employee-node-2 { left: 40px; top: 96px; }
+    .employee-node-3 { left: 75px; top: 96px; }
+    .employee-node-4 { left: 110px; top: 96px; }
+    
+    .horizontal-line {
+        width: 90px;
+        left: 35px;
+    }
+    
+    .branch-line-1 { left: 30px; }
+    .branch-line-2 { left: 75px; }
+    .branch-line-3 { left: 120px; }
+    
+    .export-loading-container h3 {
+        font-size: 22px;
+    }
+    
+    .export-loading-container p {
+        font-size: 14px;
+    }
+    
+    .file-icon {
+        width: 40px;
+        height: 40px;
+        bottom: -30px;
+        right: -30px;
+    }
+    
+    .file-icon::before {
+        font-size: 18px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .export-loading-container {
+        background: #2d2d2d;
+        color: white;
+    }
+    
+    .export-loading-container h3 {
+        color: white;
+    }
+    
+    .export-loading-container p {
+        color: #ccc;
+    }
+    
+    .progress-bar {
+        background: #444;
+    }
+}

@@ -1,0 +1,364 @@
+/* Blurred Preview Specific Styles */
+
+/* Initial state for loading elements */
+.export-loading-overlay-hidden {
+    display: none !important;
+}
+
+.main-container-hidden {
+    display: none !important;
+}
+
+.file-icon-hidden {
+    display: none !important;
+}
+
+.preview-hidden-text {
+    text-align: center;
+    margin-top: 1rem;
+    color: #888;
+}
+
+/* Blurred Preview Overlay */
+.blurred-preview-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    backdrop-filter: blur(10px);
+}
+
+.preview-notice {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.preview-notice h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.preview-notice p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.preview-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.preview-btn-primary {
+    background: #4ade80;
+    color: white;
+}
+
+.preview-btn-primary:hover {
+    background: #22c55e;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 8px 25px rgba(52, 211, 153, 0.3);
+}
+
+.preview-btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.preview-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
+/* Blur effect for content when overlay is shown */
+.content-blurred {
+    filter: blur(8px);
+    pointer-events: none;
+}
+
+/* Non-functional overlay for filters and buttons */
+.non-functional-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 1000;
+    cursor: not-allowed;
+}
+
+/* Style for disabled elements */
+.preview-disabled {
+    opacity: 0.6;
+    position: relative;
+    pointer-events: none;
+}
+
+.preview-disabled::after {
+    content: "🔒 Purchase Required";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    z-index: 1001;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.preview-disabled:hover::after {
+    opacity: 1;
+}
+
+/* Employee details blur */
+.person-card .person-name,
+.person-card .person-title {
+    filter: blur(2px);
+    -webkit-user-select: none; /* Safari support */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.person-card {
+    position: relative;
+}
+
+.person-card .person-info::after {
+    content: "Employee details hidden";
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    font-size: 0.6rem;
+    color: #888;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 10;
+}
+
+/* Hide sensitive information */
+.profile-section,
+.profile-details {
+    filter: blur(5px);
+    -webkit-user-select: none; /* Safari support */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Watermark */
+.preview-watermark {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    z-index: 9999;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Disable export functions */
+.export-controls {
+    position: relative;
+}
+
+.export-controls::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 10;
+    cursor: not-allowed;
+}
+
+/* Preview mode specific styling */
+.preview-mode .sidebar {
+    opacity: 0.7;
+}
+
+.preview-mode .search-input {
+    background: #f5f5f5;
+    cursor: not-allowed;
+}
+
+.preview-mode .search-input::placeholder {
+    color: #bbb;
+}
+
+/* Enhanced disabled state for interactive elements */
+.preview-mode input[type="checkbox"]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.preview-mode button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #e0e0e0;
+    color: #999;
+}
+
+/* Animated loading for preview elements */
+.preview-loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Sample organization chart preview styling */
+.preview-org-node {
+    opacity: 0.8;
+    border: 2px dashed #ddd;
+    background: #f9f9f9;
+}
+
+.preview-org-node:hover {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Mobile responsiveness for preview */
+@media (max-width: 768px) {
+    .preview-notice {
+        margin: 1rem;
+        padding: 1.5rem;
+        max-width: none;
+    }
+    
+    .preview-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .preview-btn {
+        width: 100%;
+        justify-content: center;
+        max-width: 250px;
+    }
+    
+    .preview-watermark {
+        bottom: 10px;
+        right: 10px;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* Fade in animation for chart elements */
+.preview-fade-in {
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Highlight preview limitations */
+.preview-limitation-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1002;
+}
+
+/* Override for specific preview elements */
+.preview-mode .org-chart {
+    filter: contrast(0.8) brightness(0.9);
+}
+
+.preview-mode .person-card:hover {
+    transform: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}

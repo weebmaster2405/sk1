@@ -1,0 +1,72 @@
+/* Lazy Loading Image Styles */
+.lazy-image {
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0.7;
+}
+
+.lazy-image.loading {
+    opacity: 0.6;
+}
+
+.lazy-image.loaded {
+    opacity: 1;
+}
+
+.lazy-image.error {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.lazy-image.placeholder {
+    opacity: 0.3;
+    background-color: #f8f9fa;
+}
+
+/* Image loading animation */
+@keyframes imageLoading {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.3; }
+}
+
+.lazy-image.loading:not(.loaded):not(.error) {
+    animation: imageLoading 1.5s ease-in-out infinite;
+}
+
+/* Tech logo optimizations */
+.tech-logo {
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Profile avatar optimizations */
+.profile-avatar-image {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: #f8f9fa;
+}
+
+/* Image container optimizations */
+.avatar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Performance optimizations */
+img {
+    will-change: opacity;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Responsive image loading */
+@media (max-width: 768px) {
+    .lazy-image {
+        transition: opacity 0.2s ease-in-out;
+    }
+}

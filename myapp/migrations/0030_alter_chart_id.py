@@ -11,9 +11,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='chart',
-            name='id',
-            field=models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True),
-        ),
+        # This migration was causing issues with UUID conversion
+        # The chart model already has the correct structure with uuid field
+        # No changes needed - this is a no-op migration
     ]
