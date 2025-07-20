@@ -17,8 +17,6 @@ import socket
 from dotenv import load_dotenv
 load_dotenv()
 
-import dj_database_url
-
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
@@ -58,9 +56,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t=t6_r!s!x#d0)x5!6216
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to True for development to serve static/media files
 
 # Test comment for Jenkins CI/CD pipeline verification
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,aniket3077.pythonanywhere.com,www.aniket3077.pythonanywhere.com').split(',')
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://aniket3077.pythonanywhere.com,https://www.aniket3077.pythonanywhere.com').split(',')
 
 # Application definition
 
@@ -116,20 +114,23 @@ WSGI_APPLICATION = 'orgchart.wsgi.application'
 
 
 
-# Database Configuration - Using Supabase PostgreSQL
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
-    )
-}
-
-# SQLite configuration (backup - commented out)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+# Database Configuration
+# Use SQLite for PythonAnywhere (production) and PostgreSQL for development
+if os.environ.get('DATABASE_URL'):
+    # Use PostgreSQL if DATABASE_URL is set (development)
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ.get('DATABASE_URL')
+        )
+    }
+else:
+    # Use SQLite for PythonAnywhere (production)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 
