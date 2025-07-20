@@ -56,9 +56,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t=t6_r!s!x#d0)x5!6216
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to True for development to serve static/media files
 
 # Test comment for Jenkins CI/CD pipeline verification
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,aniket3077.pythonanywhere.com,www.aniket3077.pythonanywhere.com').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,aniket3077.pythonanywhere.com,www.aniket3077.pythonanywhere.com,orgchart-ts9c.onrender.com,*.onrender.com').split(',')
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://aniket3077.pythonanywhere.com,https://www.aniket3077.pythonanywhere.com').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://aniket3077.pythonanywhere.com,https://www.aniket3077.pythonanywhere.com,https://orgchart-ts9c.onrender.com,https://*.onrender.com').split(',')
 
 # Application definition
 
