@@ -9,12 +9,14 @@ import dj_database_url
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Allow only Render URL and your custom domain
+# Allow Netlify domains
 ALLOWED_HOSTS = [
-    '.onrender.com',  # Allow all subdomains of onrender.com
+    '.netlify.app',  # Allow all Netlify subdomains
+    'api.netlify.com',
+    'localhost',
 ]
 
-# Configure Database using Render's DATABASE_URL
+# Configure Database using environment variable
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
     DATABASES = {
@@ -37,8 +39,7 @@ else:
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files configuration (use a proper storage service in production)
-# For now, we'll use the local filesystem, but you should use a service like AWS S3
+# Media files configuration
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -49,10 +50,16 @@ CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
-# HSTS settings
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# CORS Configuration
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://*.netlify.app",
+]
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.netlify.app',
+]
 
 # Logging configuration
 LOGGING = {
@@ -69,26 +76,14 @@ LOGGING = {
     },
 }
 
-# CORS settings for production
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    "https://*.onrender.com",
-]
-
-# CSRF settings
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.onrender.com',
-]
-
-# Email configuration for production
+# Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'your-email@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-app-password')
-EMAIL_SENDER_ID = os.environ.get('EMAIL_SENDER_ID', 'noreply@insideorgs.com')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-# Keep WhiteNoise middleware for Render
+# Middleware configuration
 if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
