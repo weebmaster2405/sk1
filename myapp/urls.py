@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.views.static import serve as static_serve
 import os
+from pathlib import Path
 
 
 urlpatterns = [
@@ -21,7 +22,6 @@ urlpatterns = [
     path('org/list', views.listorgchart, name='listorgchart'),
     path('myaccount', views.myaccount, name='myaccount'),
     path("upload_csv/", views.upload_csv, name="upload_csv"),
-    # path('charts/<str:file_name>', views.serve_file, name='serve_file'),
     path('charts/<str:file_name>', views.view_chart_by_filename, name='view_chart_by_filename'),
     path('api/request/chart/', views.serve_file, name='serve_file'), #for access managmeent
     path('delete/<int:pk>/', views.delete_file, name='delete_file'),
@@ -49,7 +49,7 @@ urlpatterns = [
     # Marketplace Action URLs
     path('view-chart/<int:chart_id>/', views.view_chart_preview, name='view_chart_preview'),
     path('preview-chart/<int:chart_id>/', views.view_chart_blurred_preview, name='view_chart_blurred_preview'),
-    path('chart/<int:chart_id>/preview/', views.view_chart_blurred_preview, name='chart_preview_public'),  # Alternative public URL
+    path('chart/<int:chart_id>/preview/', views.view_chart_blurred_preview, name='chart_preview_public'),
     path('download-sample/<int:chart_id>/', views.download_chart_sample, name='download_chart_sample'),
     path('request-sample/', views.request_sample_ajax, name='request_sample_ajax'),
     path('check-login/', views.check_login, name='check_login'),
@@ -78,8 +78,6 @@ urlpatterns = [
     # Order Management URLs
     path('orders/', views.admin_orders, name='admin_orders'),
     path('orders/<int:order_id>/', views.admin_order_detail, name='admin_order_detail'),
-    # path('orders/<int:order_id>/edit/', views.edit_order, name='edit_order'),
-    # path('orders/<int:order_id>/resend-payment/', views.resend_payment_instructions, name='resend_payment_instructions'),
     path('orders/<int:order_id>/pdf/', views.generate_order_pdf, name='generate_order_pdf'),
     path('orders/<int:order_id>/email-invoice/', views.email_order_invoice, name='email_order_invoice'),
     path('orders/<int:order_id>/update-payment/', views.manual_payment_update, name='manual_payment_update'),
@@ -88,10 +86,6 @@ urlpatterns = [
     
     # Webhook URLs
     path('webhook/razorpay/', views.razorpay_webhook, name='razorpay_webhook'),
-    
-    # path('manage', views.manage_orgcharts, name='manage_orgcharts'),
-
-    # path('webhook/razorpay/', views.razorpay_webhook, name='razorpay_webhook'),
     path('user/profile/', views.profile, name='profile'),
     
     # Coupon Management URLs
@@ -104,9 +98,11 @@ urlpatterns = [
     path('coupons/apply/', views.apply_coupon_ajax, name='apply_coupon_ajax'),
     path('coupons/remove/', views.remove_coupon_ajax, name='remove_coupon_ajax'),
     path('coupons/validate-manual-order/', views.validate_manual_order_coupon_ajax, name='validate_manual_order_coupon_ajax'),
-    path('api/test/request/chart/', views.serve_file_testing, name='serve_file_testing'), #for access management
+    path('api/test/request/chart/', views.serve_file_testing, name='serve_file_testing'),
+    
+    # Media files
     re_path(r'^media/img/(?P<path>.*)$', static_serve, {
-        'document_root': settings.MEDIA_ROOT / 'img',
+        'document_root': os.path.join(settings.MEDIA_ROOT, 'img'),
     }),
 ]
 

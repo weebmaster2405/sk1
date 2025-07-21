@@ -4,6 +4,7 @@ Production settings for PythonAnywhere deployment
 import os
 from pathlib import Path
 from .settings import *
+import dj_database_url
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -18,22 +19,25 @@ ALLOWED_HOSTS = [
 
 # Static files configuration for PythonAnywhere
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/aniket3077/insideorgs/staticfiles/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media files configuration
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/aniket3077/insideorgs/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Database Configuration for PythonAnywhere PostgreSQL
+# Database Configuration - Using Supabase PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'aniket3077$default',
-        'USER': 'aniket3077',
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': 'aniket3077-3077.postgres.pythonanywhere-services.com',
-        'PORT': '13077',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+} if not os.environ.get('DATABASE_URL') else {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+        engine='django.db.backends.postgresql'
+    )
 }
 
 # Security settings for production

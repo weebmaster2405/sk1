@@ -17,8 +17,6 @@ import socket
 from dotenv import load_dotenv
 load_dotenv()
 
-import dj_database_url
-
 EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
 EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
@@ -48,9 +46,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t=t6_r!s!x#d0)x5!6216
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to True for development to serve static/media files
 
 # Test comment for Jenkins CI/CD pipeline verification
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,*.onrender.com').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://*.onrender.com').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
 
 # Application definition
 
@@ -99,14 +97,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'orgchart.wsgi.application'
 
 # Database Configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-        engine='django.db.backends.postgresql',
-    )
-}
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+            engine='django.db.backends.postgresql',
+        )
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -134,12 +140,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript)
 BASE_URL = os.environ.get('BASE_URL', '')
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "static"  # Where collectstatic puts files for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / "myapp" / "static",
+    os.path.join(BASE_DIR, "myapp", "static"),
 ]
 
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
 # Default primary key field type
@@ -149,9 +155,12 @@ LOGIN_URL = 'signin'
 LOGIN_REDIRECT_URL = '/'  # Redirect to the homepage after login
 
 # CORS Configuration
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True if DEBUG else False
 CORS_ALLOWED_ORIGINS = [
-    "https://*.onrender.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+] if DEBUG else [
+    "https://*.pythonanywhere.com",
 ]
 
 # Allow specific headers
