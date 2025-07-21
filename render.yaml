@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: insideorgs
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn orgchart.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DJANGO_SETTINGS_MODULE
+        value: orgchart.settings_production
+    autoDeploy: true 

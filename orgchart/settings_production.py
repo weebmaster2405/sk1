@@ -4,38 +4,62 @@ Production settings for PythonAnywhere deployment
 import os
 from pathlib import Path
 from .settings import *
+import dj_database_url
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Update allowed hosts for your PythonAnywhere domain
+# Allow only Render URL and your custom domain
 ALLOWED_HOSTS = [
-    'aniket3077.pythonanywhere.com',
-    'www.aniket3077.pythonanywhere.com',
-    'localhost',
-    '127.0.0.1',
+    '.onrender.com',  # Allow all subdomains of onrender.com
 ]
 
-# Static files configuration for PythonAnywhere
-STATIC_URL = '/static/'
-STATIC_ROOT = '/home/aniket3077/insideorgs/staticfiles/'
-
-# Media files configuration
-MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/aniket3077/insideorgs/media/'
-
-# Database configuration for PythonAnywhere
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Configure Database using Render's DATABASE_URL
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
 
-# Security settings for production
+# Static files configuration
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files configuration (use a proper storage service in production)
+# For now, we'll use the local filesystem, but you should use a service like AWS S3
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Security settings
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
+
+# HSTS settings
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 
 # CORS settings for production
 CORS_ALLOW_ALL_ORIGINS = False
