@@ -24,15 +24,6 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
 SITE_URL = os.environ.get('SITE_URL', '')
 
-
-# PAYPAL_CLIENT_ID = 'AfPn1HGapTXGdyoT6gFEzP8x5dJeYpn1X5iVO6LdS3zNqAx--XyeHBzEBrC4-tW5303OTijUB8866IFX'
-# PAYPAL_CLIENT_SECRET = 'EIQabPRF--flbMz7LZEI-vliwAXrwbCrqkF_tWWEzm30tSr5PzcoYLjnsEfOa9-tta6P1vrt3LC1Gv6V'
-# PAYPAL_ENVIRONMENT = 'live'  
-
-# PAYPAL_CLIENT_ID = 'AXPAdmn5mZBUj4ispU4njr1ekRMhmZ767KN4PsPSHonfY12lCm-UTMuhPdo_yzQr4G-GLrwptU47rqqw'
-# PAYPAL_CLIENT_SECRET = 'EHrJ0yBE86m0rmdfPRFKzJ2VBuDVWp9p1jskM8j3MJRWBODWY-I5rNgLoXo3mRst8gdXci-YqqOgUl7c'
-# PAYPAL_ENVIRONMENT = 'sandbox'
-
 # Razorpay Settings
 RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
 RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
@@ -46,7 +37,6 @@ SESSION_COOKIE_SECURE = False
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'orgchart')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -58,21 +48,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-t=t6_r!s!x#d0)x5!6216
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'  # Set to True for development to serve static/media files
 
 # Test comment for Jenkins CI/CD pipeline verification
-<<<<<<< HEAD
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,*.onrender.com').split(',')
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1').split(',')
-=======
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,aniket3077.pythonanywhere.com,www.aniket3077.pythonanywhere.com,orgchart-ts9c.onrender.com,*.onrender.com').split(',')
-
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://aniket3077.pythonanywhere.com,https://www.aniket3077.pythonanywhere.com,https://orgchart-ts9c.onrender.com,https://*.onrender.com').split(',')
->>>>>>> 5a8cab744aa858fc839a90b68018747ec8dd316c
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost,http://127.0.0.1,https://*.onrender.com').split(',')
 
 # Application definition
 
 INSTALLED_APPS = [
-#    
-    # 'ash',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,7 +83,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ["templates"],
-        'APP_DIRS': True,        'OPTIONS': {
+        'APP_DIRS': True,
+        'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -115,34 +98,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'orgchart.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-
-
-# Database Configuration - Using Supabase PostgreSQL
+# Database Configuration
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+        engine='django.db.backends.postgresql',
     )
 }
 
-# SQLite configuration (backup - commented out)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-
-
 # Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -158,30 +124,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Kolkata'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 BASE_URL = os.environ.get('BASE_URL', '')
-
 STATIC_URL = '/static/'
-
 STATIC_ROOT = BASE_DIR / "static"  # Where collectstatic puts files for production
-
-# Additional directories to search for static files during development
 STATICFILES_DIRS = [
     BASE_DIR / "myapp" / "static",
 ]
@@ -190,30 +143,16 @@ MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = '/media/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'signin'
 LOGIN_REDIRECT_URL = '/'  # Redirect to the homepage after login
 
-# ===================================
 # CORS Configuration
-# ===================================
-
-# Allow CORS for all origins (Development only - be more restrictive in production)
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True  # Set to False in production
-
-# Alternatively, specify allowed origins for production:
-# CORS_ALLOWED_ORIGINS = [
-#     "https://yourfrontenddomain.com",
-#     "https://www.yourfrontenddomain.com",
-#     "http://localhost:3000",  # React dev server
-#     "http://127.0.0.1:3000",
-#     "http://localhost:8080",  # Vue.js dev server
-#     "http://127.0.0.1:8080",
-# ]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://*.onrender.com",
+]
 
 # Allow specific headers
 CORS_ALLOW_HEADERS = [
@@ -231,7 +170,6 @@ CORS_ALLOW_HEADERS = [
     'cache-control',
 ]
 
-# Allow specific HTTP methods
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
@@ -241,35 +179,17 @@ CORS_ALLOW_METHODS = [
     'PUT',
 ]
 
-# Allow credentials (cookies, authorization headers, etc.)
 CORS_ALLOW_CREDENTIALS = True
-
-# Cache preflight requests for 1 hour (3600 seconds)
 CORS_PREFLIGHT_MAX_AGE = 3600
-
-# Allow specific headers to be exposed to the browser
 CORS_EXPOSE_HEADERS = [
     'content-type',
     'x-csrftoken',
     'authorization',
 ]
 
-# Additional CORS settings for API endpoints
-CORS_ALLOW_PRIVATE_NETWORK = True  # For local network requests
+CORS_ALLOW_PRIVATE_NETWORK = True
 
-# CSRF Configuration for CORS
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost',
-    'http://127.0.0.1',
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-]
-
-# Additional security headers for API responses
+# Security settings
 SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
-
-# X-Frame-Options for embedding (adjust as needed)
-X_FRAME_OPTIONS = 'SAMEORIGIN'  # or 'DENY' for more security
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
