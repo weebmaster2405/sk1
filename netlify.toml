@@ -1,11 +1,22 @@
 [build]
   base = "/"
   publish = "staticfiles"
-  command = "npm run build"
+  command = """
+    curl https://pyenv.run | bash
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    pyenv install 3.9.18
+    pyenv global 3.9.18
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+    python manage.py collectstatic --noinput
+  """
 
 [build.environment]
-  PYTHON_VERSION = "3.9"
   NODE_VERSION = "18"
+  PIPENV_VENV_IN_PROJECT = "true"
+  PYTHON_VERSION = "3.9.18"
 
 [[redirects]]
   from = "/*"
