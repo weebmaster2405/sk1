@@ -24,6 +24,7 @@ services:
       apt-get update && apt-get install -y \
         python3-dev \
         libpq-dev \
+        postgresql \
+        postgresql-contrib \
         gcc \
-        postgresql-client \
         build-essential 
