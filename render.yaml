@@ -15,4 +15,10 @@ services:
         value: 4
       - key: DJANGO_SETTINGS_MODULE
         value: orgchart.settings_production
-    autoDeploy: true 
+    autoDeploy: true
+    buildFilter:
+      paths:
+      - requirements.txt
+      - "**/*.py"
+    preInstallCommand: |
+      apt-get update && apt-get install -y python3-dev libpq-dev build-essential 

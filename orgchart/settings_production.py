@@ -22,6 +22,7 @@ if DATABASE_URL:
             default=DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
+            engine='django.db.backends.postgresql',
         )
     }
 
@@ -64,14 +65,12 @@ LOGGING = {
 # CORS settings for production
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "https://aniket3077.pythonanywhere.com",
-    "https://www.aniket3077.pythonanywhere.com",
+    "https://*.onrender.com",
 ]
 
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
-    'https://aniket3077.pythonanywhere.com',
-    'https://www.aniket3077.pythonanywhere.com',
+    'https://*.onrender.com',
 ]
 
 # Email configuration for production
@@ -83,5 +82,6 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'your-email@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your-app-password')
 EMAIL_SENDER_ID = os.environ.get('EMAIL_SENDER_ID', 'noreply@insideorgs.com')
 
-# Remove WhiteNoise middleware for PythonAnywhere
-MIDDLEWARE = [mw for mw in MIDDLEWARE if 'whitenoise' not in mw.lower()]
+# Keep WhiteNoise middleware for Render
+if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
