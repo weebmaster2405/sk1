@@ -21,4 +21,9 @@ services:
       - requirements.txt
       - "**/*.py"
     preInstallCommand: |
-      apt-get update && apt-get install -y python3-dev libpq-dev build-essential 
+      apt-get update && apt-get install -y \
+        python3-dev \
+        libpq-dev \
+        gcc \
+        postgresql-client \
+        build-essential 
